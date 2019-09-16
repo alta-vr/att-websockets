@@ -1,0 +1,32 @@
+{
+  "name": "att-websockets",
+  "version": "1.0.0",
+  "description": "Websocket connections for ATT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepare": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alta-vr/att-websockets.git"
+  },
+  "keywords": [
+    "alta",
+    "att",
+    "websockets"
+  ],
+  "author": "Joel van de Vorstenbosch",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/alta-vr/att-websockets/issues"
+  },
+  "homepage": "https://github.com/alta-vr/att-websockets#readme",
+  "dependencies": {
+    "alta-jsapi": "git+https://github.com/alta-vr/alta-jsapi.git"
+  },
+  "devDependencies": {
+    "@types/memoizee": "^0.4.3",
+    "@types/node": "^12.7.5"
+  }
+}
