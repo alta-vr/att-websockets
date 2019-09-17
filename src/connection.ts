@@ -31,25 +31,21 @@ export enum EventType
   CreatureSpawned
 }
 
-export enum RequestType
+export enum MessageType
 {
-  Info,
-  Command,
-  Subscribe,
-  Unsubscribe
+  SystemMessage,
+  Subscription,
+  CommandResult
 }
 
-export enum InfoType
+export type Message =
 {
-  Infos,
-  Events,
-  Modules,
-  Players
-}
-
-interface Window {
-  WebSocket: any;
-  MozWebSocket: any;
+  id:number,
+  type: MessageType,
+  timeStamp: string,
+  eventType?: EventType,
+  data: any,
+  commandId?: number
 }
 
 export default class Connection
@@ -58,11 +54,13 @@ export default class Connection
 
   connection:WebSocket|undefined;
 
-  onMessage = console.log;
+  onMessage:(response:Message)=>void = console.log;
 
   onError = console.error;
 
   onClose = console.error;
+
+  nextId = 0;
 
   constructor(name:string)
   {
@@ -108,25 +106,37 @@ export default class Connection
       connection.onerror = reject;
     });
 
-    connection.onmessage = message => this.onMessage(message);
+    connection.onmessage = this.handleMessage;
     connection.onerror = error => this.onError(error);
     connection.onclose = data => this.onClose(data);
   }
 
-  sendStructured(type:RequestType, content:string|undefined, infoType:InfoType|undefined = undefined, eventType:EventType|undefined = undefined)
+  handleMessage(message:MessageEvent)
   {
-      this.send(JSON.stringify({type, content, infoType, eventType}));
+    var data:Message = JSON.parse(message.data);
+
+    this.onMessage(data);
   }
 
-  send(command:string) 
+  getNextId() : number
   {
+    this.nextId++;
+    return this.nextId;
+  }
+
+  send(content:string) : number
+  {    
     if (!this.connection)
     {
       console.error("Connection not started. Call 'connect' first!");
-      return;
+      return -1;
     }
 
-    this.connection.send(command);
+    var id = this.getNextId();
+
+    this.connection.send(JSON.stringify({id, content}));
+
+    return id;
   }
 
   terminate() 

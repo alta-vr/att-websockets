@@ -1,9 +1,11 @@
 import { EventEmitter } from "events";
-import Connection, { RequestType, EventType, InfoType } from "./connection";
+import Connection, { EventType, Message, MessageType } from "./connection";
 
 export default class BasicWrapper extends EventEmitter
 {
     internal:Connection;
+
+    onSystemMessage:(message:Message)=>void = console.log;
 
     constructor(remoteConsole:Connection)
     {
@@ -14,46 +16,45 @@ export default class BasicWrapper extends EventEmitter
         remoteConsole.onMessage = this.handleMessage;
     }
 
-    handleMessage(message:{data:string})
+    handleMessage(data:Message)
     {
-        var data = JSON.parse(message.data);
+        switch (data.type)
+        {
+            case MessageType.SystemMessage:
+                this.onSystemMessage(data);
+            break;
 
-        if (data.type == 'Susbcription')
-        {
-            this.emit('EVENT' + data.eventType, data.data);
-        }
-        else if (data.type == 'Info')
-        {
-            this.emit('INFO' + data.infoType, data.info);
+            case MessageType.Subscription:
+                this.emit('SUB' + data.eventType, data.data);
+            break;
+
+            case MessageType.CommandResult:
+                this.emit('CR' + data.commandId, data.data);
+            break;
         }
     }
 
-    sendCommand(command:string)
-    {
-        this.internal.sendStructured(RequestType.Command, command);
-    }
-
-    async getInfo(info:InfoType)
+    send(command:string) : Promise<Message>
     {
         return new Promise((resolve, reject) => 
         {
-            this.once('INFO' + info, resolve);
+            var id = this.internal.send(command);
 
-            setTimeout(reject, 5000);
+            this.once('CR' + id, resolve);
         });
     }
 
-    subscribe(event:EventType, callback:(result:any)=>void)
+    subscribe(event:EventType, callback:(result:any)=>void) : Promise<Message>
     {
-        this.addListener('EVENT' + event, callback);
+        this.addListener('SUB' + event, callback);
 
-        this.internal.sendStructured(RequestType.Subscribe, undefined, undefined, event);
+        return this.send('websocket subscribe ' + event);
     }
 
-    unsubscribe(event:EventType, callback:(result:any)=>void)
+    unsubscribe(event:EventType, callback:(result:any)=>void) : Promise<Message>
     {
-        this.removeListener('EVENT' + event, callback);
+        this.removeListener('SUB' + event, callback);
         
-        this.internal.sendStructured(RequestType.Unsubscribe, undefined, undefined, event);
+        return this.send('websocket unsubscribe ' + event);
     }
 }
