@@ -2,33 +2,33 @@ import { Sessions } from 'alta-jsapi';
 
 export enum EventType
 {
-  None,
+  None = 'None',
 
   //Implemented
-  TraceLog,
-  DebugLog,
-  InfoLog,
-  WarnLog,
-  ErrorLog,
-  FatalLog,
-  OffLog,
+  TraceLog = 'TraceLog',
+  DebugLog = 'DebugLog',
+  InfoLog = 'InfoLog',
+  WarnLog = 'WarnLog',
+  ErrorLog = 'ErrorLog',
+  FatalLog = 'FatalLog',
+  OffLog = 'OffLog',
 
-  PlayerJoined,
-  PlayerLeft,
+  PlayerJoined = 'PlayerJoined',
+  PlayerLeft = 'PlayerLeft',
 
   //Not Implemented
-  PlayerKilled,
-  CreatureKilled,
-  TradeDeckModified,
-  TradeDeckUsed,
-  ToolHeadCreated,
-  ToolHeadForged,
-  ChiselDeckSuccess,
-  ChiselDeckFailure,
-  ChunkLoaded,
-  ChunkUnloaded,
-  PlayerMovedChunk,
-  CreatureSpawned
+  PlayerKilled = 'PlayerKilled',
+  CreatureKilled = 'CreatureKilled',
+  TradeDeckModified = 'TradeDeckModified',
+  TradeDeckUsed = 'TradeDeckUsed',
+  ToolHeadCreated = 'ToolHeadCreated',
+  ToolHeadForged = 'ToolHeadForged',
+  ChiselDeckSuccess = 'ChiselDeckSuccess',
+  ChiselDeckFailure = 'ChiselDeckFailure',
+  ChunkLoaded = 'ChunkLoaded',
+  ChunkUnloaded = 'ChunkUnloaded',
+  PlayerMovedChunk = 'PlayerMovedChunk',
+  CreatureSpawned = 'CreatureSpawned'
 }
 
 export enum MessageType
