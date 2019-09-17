@@ -15,20 +15,20 @@ export enum EventType
 
   PlayerJoined = 'PlayerJoined',
   PlayerLeft = 'PlayerLeft',
-
-  //Not Implemented
   PlayerKilled = 'PlayerKilled',
   CreatureKilled = 'CreatureKilled',
-  TradeDeckModified = 'TradeDeckModified',
   TradeDeckUsed = 'TradeDeckUsed',
+  PlayerMovedChunk = 'PlayerMovedChunk',
+  CreatureSpawned = 'CreatureSpawned',
+
+  //Not Implemented
+  TradeDeckModified = 'TradeDeckModified',
   ToolHeadCreated = 'ToolHeadCreated',
   ToolHeadForged = 'ToolHeadForged',
   ChiselDeckSuccess = 'ChiselDeckSuccess',
   ChiselDeckFailure = 'ChiselDeckFailure',
   ChunkLoaded = 'ChunkLoaded',
   ChunkUnloaded = 'ChunkUnloaded',
-  PlayerMovedChunk = 'PlayerMovedChunk',
-  CreatureSpawned = 'CreatureSpawned'
 }
 
 export enum MessageType
@@ -82,10 +82,14 @@ export default class Connection
 
             if (data.type == 'FatalLog' || data.type == 'ErrorLog')
             {
+                console.error("Failing connection!");
+                console.error(message);
                 reject(data.message);
             }
             else
             {
+                console.log("Resolving connection!");
+                console.log(message);
                 resolve();
             }
         }
