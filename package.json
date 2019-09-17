@@ -1,6 +1,6 @@
 {
   "name": "att-websockets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Websocket connections for ATT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
