@@ -76,7 +76,6 @@ export default class Connection
     {
       connection.onopen = () => 
       {
-
         connection.onmessage = message => 
         {
             var data = JSON.parse(message.data);
@@ -106,7 +105,7 @@ export default class Connection
       connection.onerror = reject;
     });
 
-    connection.onmessage = this.handleMessage;
+    connection.onmessage = this.handleMessage.bind(this);
     connection.onerror = error => this.onError(error);
     connection.onclose = data => this.onClose(data);
   }
