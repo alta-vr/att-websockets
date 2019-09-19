@@ -33,9 +33,9 @@ export enum EventType
 
 export enum MessageType
 {
-  SystemMessage,
-  Subscription,
-  CommandResult
+  SystemMessage = "SystemMessage",
+  Subscription = "Subscription",
+  CommandResult = "CommandResult"
 }
 
 export type Message =
