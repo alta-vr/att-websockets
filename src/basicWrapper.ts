@@ -1,16 +1,16 @@
 import { EventEmitter } from "events";
 import Connection, { EventType, Message, MessageType } from "./connection";
 
-export default class BasicWrapper extends EventEmitter
+export default class BasicWrapper
 {
+    emitter:EventEmitter = new EventEmitter();
+
     internal:Connection;
 
     onSystemMessage:(message:Message)=>void = console.log;
 
     constructor(remoteConsole:Connection)
     {
-        super();
-
         this.internal = remoteConsole;
 
         remoteConsole.onMessage = this.handleMessage;
@@ -25,11 +25,11 @@ export default class BasicWrapper extends EventEmitter
             break;
 
             case MessageType.Subscription:
-                this.emit('SUB' + data.eventType, data.data);
+                this.emitter.emit('SUB' + data.eventType, data.data);
             break;
 
             case MessageType.CommandResult:
-                this.emit('CR' + data.commandId, data.data);
+                this.emitter.emit('CR' + data.commandId, data.data);
             break;
         }
     }
@@ -40,20 +40,20 @@ export default class BasicWrapper extends EventEmitter
         {
             var id = this.internal.send(command);
 
-            this.once('CR' + id, resolve);
+            this.emitter.once('CR' + id, resolve);
         });
     }
 
     subscribe(event:EventType, callback:(result:any)=>void) : Promise<Message>
     {
-        this.addListener('SUB' + event, callback);
+        this.emitter.addListener('SUB' + event, callback);
 
         return this.send('websocket subscribe ' + event);
     }
 
     unsubscribe(event:EventType, callback:(result:any)=>void) : Promise<Message>
     {
-        this.removeListener('SUB' + event, callback);
+        this.emitter.removeListener('SUB' + event, callback);
         
         return this.send('websocket unsubscribe ' + event);
     }
