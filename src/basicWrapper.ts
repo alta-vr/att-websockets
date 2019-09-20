@@ -56,8 +56,15 @@ export default class BasicWrapper
 
         var result = await this.send('websocket subscribe ' + event);
 
-        console.log("Subscription to " + event + " result:");
-        console.log(result);
+        if (!!result.Exception)
+        {
+            console.error(`Failed to subscribe to ${event}`);
+            console.error(result.Exception);
+        }
+        else
+        {
+            console.log(`Subscribed to ${event} : ${result.ResultString}`);
+        }
 
         return result;
     }
@@ -70,8 +77,15 @@ export default class BasicWrapper
         
         var result = await this.send('websocket unsubscribe ' + event);
 
-        console.log("Unsubscribing from " + event + " result:");
-        console.log(result);
+        if (!!result.Exception)
+        {
+            console.error(`Failed to unsubscribe from ${event}`);
+            console.error(result.Exception);
+        }
+        else
+        {
+            console.log(`Unsubscribed from ${event} : ${result.ResultString}`);
+        }
 
         return result;
     }
