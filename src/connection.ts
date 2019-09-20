@@ -1,5 +1,7 @@
 import { Sessions } from 'alta-jsapi';
 
+import WebSocket from 'isomorphic-ws';
+
 export enum EventType
 {
   None = 'None',
@@ -76,7 +78,7 @@ export default class Connection
     {
       connection.onopen = () => 
       {
-        connection.onmessage = message => 
+        connection.onmessage = (message:any) => 
         {
             var data = JSON.parse(message.data);
 
@@ -110,8 +112,8 @@ export default class Connection
     });
 
     connection.onmessage = this.handleMessage.bind(this);
-    connection.onerror = error => this.onError(error);
-    connection.onclose = data => this.onClose(data);
+    connection.onerror = (error:any) => this.onError(error);
+    connection.onclose = (data:any) => this.onClose(data);
   }
 
   handleMessage(message:MessageEvent)
