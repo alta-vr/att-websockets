@@ -86,12 +86,12 @@ export default class Connection
             {
                 console.error("Failing connection!");
                 console.error(message);
-                reject(data.message);
+                reject(data.data);
             }
             else
             {
                 console.log("Resolving connection!");
-                console.log(message);
+                console.log(data.data);
                 resolve();
             }
         }

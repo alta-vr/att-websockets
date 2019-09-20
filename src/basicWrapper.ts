@@ -3,7 +3,7 @@ import Connection, { EventType, Message, MessageType } from "./connection";
 
 export default class BasicWrapper
 {
-    emitter:EventEmitter = new EventEmitter();
+    emitter:EventEmitter;
 
     internal:Connection;
 
@@ -13,11 +13,15 @@ export default class BasicWrapper
     {
         this.internal = remoteConsole;
 
-        remoteConsole.onMessage = this.handleMessage;
+        this.emitter = new EventEmitter();
+
+        remoteConsole.onMessage = this.handleMessage.bind(this);
     }
 
     handleMessage(data:Message)
     {
+        console.log(data);
+
         switch (data.type)
         {
             case MessageType.SystemMessage:
@@ -34,7 +38,7 @@ export default class BasicWrapper
         }
     }
 
-    send(command:string) : Promise<Message>
+    send(command:string) : Promise<any>
     {
         return new Promise((resolve, reject) => 
         {
@@ -44,17 +48,31 @@ export default class BasicWrapper
         });
     }
 
-    subscribe(event:EventType, callback:(result:any)=>void) : Promise<Message>
+    async subscribe(event:EventType, callback:(result:any)=>void) : Promise<any>
     {
+        console.log("Subscribing to " + event);
+
         this.emitter.addListener('SUB' + event, callback);
 
-        return this.send('websocket subscribe ' + event);
+        var result = await this.send('websocket subscribe ' + event);
+
+        console.log("Subscription to " + event + " result:");
+        console.log(result);
+
+        return result;
     }
 
-    unsubscribe(event:EventType, callback:(result:any)=>void) : Promise<Message>
+    async  unsubscribe(event:EventType, callback:(result:any)=>void) : Promise<any>
     {
+        console.log("Unsubscribing from " + event);
+
         this.emitter.removeListener('SUB' + event, callback);
         
-        return this.send('websocket unsubscribe ' + event);
+        var result = await this.send('websocket unsubscribe ' + event);
+
+        console.log("Unsubscribing from " + event + " result:");
+        console.log(result);
+
+        return result;
     }
 }
