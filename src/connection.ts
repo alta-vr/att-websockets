@@ -116,7 +116,7 @@ export default class Connection
     connection.onclose = (data:any) => this.onClose(data);
   }
 
-  handleMessage(message:MessageEvent)
+  handleMessage(message:any)
   {
     var data:Message = JSON.parse(message.data);
 
