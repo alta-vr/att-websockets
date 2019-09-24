@@ -71,6 +71,8 @@ export default class Connection
 
   async connect(ipAddress:string, port:string|number, token:string)
   {
+    console.log(`Connecting to ${ipAddress}:${port} with token ${token}`);
+
     const connection = new WebSocket(`ws://${ipAddress}:${port}`);
     this.connection = connection;
 
