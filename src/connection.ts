@@ -1,4 +1,4 @@
-import { Sessions } from 'alta-jsapi';
+import { Sessions, Servers } from 'alta-jsapi';
 
 import WebSocket from 'isomorphic-ws';
 
@@ -69,7 +69,7 @@ export default class Connection
     this.name = name;
   }
 
-  async connect(ipAddress:string, port:string|number)
+  async connect(ipAddress:string, port:string|number, token:string)
   {
     const connection = new WebSocket(`ws://${ipAddress}:${port}`);
     this.connection = connection;
@@ -96,16 +96,7 @@ export default class Connection
             }
         }
 
-        var token = Sessions.getLocalTokens().identity_token;
-
-        if (!!token)
-        {
-          connection.send(token);
-        }
-        else
-        {
-          reject('No local token found. Are you logged in?');
-        }
+        connection.send(token);
       };
       
       connection.onerror = reject;
