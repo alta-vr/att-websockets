@@ -20,8 +20,6 @@ export default class BasicWrapper
 
     handleMessage(data:Message)
     {
-        console.log(data);
-
         switch (data.type)
         {
             case MessageType.SystemMessage:
@@ -34,6 +32,11 @@ export default class BasicWrapper
 
             case MessageType.CommandResult:
                 this.emitter.emit('CR' + data.commandId, data.data);
+            break;
+
+            default:
+                console.log("Unhandled message:");
+                console.log(data);
             break;
         }
     }
