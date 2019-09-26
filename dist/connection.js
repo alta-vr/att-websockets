@@ -38,35 +38,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var alta_jsapi_1 = require("alta-jsapi");
 var isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
-var EventType;
-(function (EventType) {
-    EventType["None"] = "None";
-    //Implemented
-    EventType["TraceLog"] = "TraceLog";
-    EventType["DebugLog"] = "DebugLog";
-    EventType["InfoLog"] = "InfoLog";
-    EventType["WarnLog"] = "WarnLog";
-    EventType["ErrorLog"] = "ErrorLog";
-    EventType["FatalLog"] = "FatalLog";
-    EventType["OffLog"] = "OffLog";
-    EventType["PlayerJoined"] = "PlayerJoined";
-    EventType["PlayerLeft"] = "PlayerLeft";
-    EventType["PlayerKilled"] = "PlayerKilled";
-    EventType["CreatureKilled"] = "CreatureKilled";
-    EventType["TradeDeckUsed"] = "TradeDeckUsed";
-    EventType["PlayerMovedChunk"] = "PlayerMovedChunk";
-    EventType["CreatureSpawned"] = "CreatureSpawned";
-    //Not Implemented
-    EventType["TradeDeckModified"] = "TradeDeckModified";
-    EventType["ToolHeadCreated"] = "ToolHeadCreated";
-    EventType["ToolHeadForged"] = "ToolHeadForged";
-    EventType["ChiselDeckSuccess"] = "ChiselDeckSuccess";
-    EventType["ChiselDeckFailure"] = "ChiselDeckFailure";
-    EventType["ChunkLoaded"] = "ChunkLoaded";
-    EventType["ChunkUnloaded"] = "ChunkUnloaded";
-})(EventType = exports.EventType || (exports.EventType = {}));
 var MessageType;
 (function (MessageType) {
     MessageType["SystemMessage"] = "SystemMessage";
@@ -81,13 +53,14 @@ var Connection = /** @class */ (function () {
         this.nextId = 0;
         this.name = name;
     }
-    Connection.prototype.connect = function (ipAddress, port) {
+    Connection.prototype.connect = function (ipAddress, port, token) {
         return __awaiter(this, void 0, void 0, function () {
             var connection;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        console.log("Connecting to " + ipAddress + ":" + port + " with token " + token);
                         connection = new isomorphic_ws_1.default("ws://" + ipAddress + ":" + port);
                         this.connection = connection;
                         return [4 /*yield*/, new Promise(function (resolve, reject) {
@@ -105,13 +78,7 @@ var Connection = /** @class */ (function () {
                                             resolve();
                                         }
                                     };
-                                    var token = alta_jsapi_1.Sessions.getLocalTokens().identity_token;
-                                    if (!!token) {
-                                        connection.send(token);
-                                    }
-                                    else {
-                                        reject('No local token found. Are you logged in?');
-                                    }
+                                    connection.send(token);
                                 };
                                 connection.onerror = reject;
                             })];

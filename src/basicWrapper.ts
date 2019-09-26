@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import Connection, { EventType, Message, MessageType } from "./connection";
+import Connection, { Message, MessageType } from "./connection";
 
 export default class BasicWrapper
 {
@@ -51,7 +51,7 @@ export default class BasicWrapper
         });
     }
 
-    async subscribe(event:EventType, callback:(result:any)=>void) : Promise<any>
+    async subscribe(event:string, callback:(result:any)=>void) : Promise<any>
     {
         console.log("Subscribing to " + event);
 
@@ -72,7 +72,7 @@ export default class BasicWrapper
         return result;
     }
 
-    async  unsubscribe(event:EventType, callback:(result:any)=>void) : Promise<any>
+    async  unsubscribe(event:string, callback:(result:any)=>void) : Promise<any>
     {
         console.log("Unsubscribing from " + event);
 

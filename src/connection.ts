@@ -2,37 +2,6 @@ import { Sessions, Servers } from 'alta-jsapi';
 
 import WebSocket from 'isomorphic-ws';
 
-export enum EventType
-{
-  None = 'None',
-
-  //Implemented
-  TraceLog = 'TraceLog',
-  DebugLog = 'DebugLog',
-  InfoLog = 'InfoLog',
-  WarnLog = 'WarnLog',
-  ErrorLog = 'ErrorLog',
-  FatalLog = 'FatalLog',
-  OffLog = 'OffLog',
-
-  PlayerJoined = 'PlayerJoined',
-  PlayerLeft = 'PlayerLeft',
-  PlayerKilled = 'PlayerKilled',
-  CreatureKilled = 'CreatureKilled',
-  TradeDeckUsed = 'TradeDeckUsed',
-  PlayerMovedChunk = 'PlayerMovedChunk',
-  CreatureSpawned = 'CreatureSpawned',
-
-  //Not Implemented
-  TradeDeckModified = 'TradeDeckModified',
-  ToolHeadCreated = 'ToolHeadCreated',
-  ToolHeadForged = 'ToolHeadForged',
-  ChiselDeckSuccess = 'ChiselDeckSuccess',
-  ChiselDeckFailure = 'ChiselDeckFailure',
-  ChunkLoaded = 'ChunkLoaded',
-  ChunkUnloaded = 'ChunkUnloaded',
-}
-
 export enum MessageType
 {
   SystemMessage = "SystemMessage",
@@ -45,7 +14,7 @@ export type Message =
   id:number,
   type: MessageType,
   timeStamp: string,
-  eventType?: EventType,
+  eventType?: string,
   data: any,
   commandId?: number
 }

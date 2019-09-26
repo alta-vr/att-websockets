@@ -1,29 +1,5 @@
 /// <reference types="ws" />
 import WebSocket from 'isomorphic-ws';
-export declare enum EventType {
-    None = "None",
-    TraceLog = "TraceLog",
-    DebugLog = "DebugLog",
-    InfoLog = "InfoLog",
-    WarnLog = "WarnLog",
-    ErrorLog = "ErrorLog",
-    FatalLog = "FatalLog",
-    OffLog = "OffLog",
-    PlayerJoined = "PlayerJoined",
-    PlayerLeft = "PlayerLeft",
-    PlayerKilled = "PlayerKilled",
-    CreatureKilled = "CreatureKilled",
-    TradeDeckUsed = "TradeDeckUsed",
-    PlayerMovedChunk = "PlayerMovedChunk",
-    CreatureSpawned = "CreatureSpawned",
-    TradeDeckModified = "TradeDeckModified",
-    ToolHeadCreated = "ToolHeadCreated",
-    ToolHeadForged = "ToolHeadForged",
-    ChiselDeckSuccess = "ChiselDeckSuccess",
-    ChiselDeckFailure = "ChiselDeckFailure",
-    ChunkLoaded = "ChunkLoaded",
-    ChunkUnloaded = "ChunkUnloaded"
-}
 export declare enum MessageType {
     SystemMessage = "SystemMessage",
     Subscription = "Subscription",
@@ -33,7 +9,7 @@ export declare type Message = {
     id: number;
     type: MessageType;
     timeStamp: string;
-    eventType?: EventType;
+    eventType?: string;
     data: any;
     commandId?: number;
 };
@@ -51,7 +27,7 @@ export default class Connection {
     };
     nextId: number;
     constructor(name: string);
-    connect(ipAddress: string, port: string | number): Promise<void>;
+    connect(ipAddress: string, port: string | number, token: string): Promise<void>;
     handleMessage(message: any): void;
     getNextId(): number;
     send(content: string): number;

@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { EventEmitter } from "events";
-import Connection, { EventType, Message } from "./connection";
+import Connection, { Message } from "./connection";
 export default class BasicWrapper {
     emitter: EventEmitter;
     internal: Connection;
@@ -8,6 +8,6 @@ export default class BasicWrapper {
     constructor(remoteConsole: Connection);
     handleMessage(data: Message): void;
     send(command: string): Promise<any>;
-    subscribe(event: EventType, callback: (result: any) => void): Promise<any>;
-    unsubscribe(event: EventType, callback: (result: any) => void): Promise<any>;
+    subscribe(event: string, callback: (result: any) => void): Promise<any>;
+    unsubscribe(event: string, callback: (result: any) => void): Promise<any>;
 }
