@@ -60,7 +60,7 @@ var Connection = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log("Connecting to " + ipAddress + ":" + port + " with token " + token);
+                        console.log("Connecting to " + ipAddress + ":" + port);
                         connection = new isomorphic_ws_1.default("ws://" + ipAddress + ":" + port);
                         this.connection = connection;
                         return [4 /*yield*/, new Promise(function (resolve, reject) {
