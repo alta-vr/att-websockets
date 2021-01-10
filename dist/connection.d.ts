@@ -6,7 +6,6 @@ export declare enum MessageType {
     CommandResult = "CommandResult"
 }
 export declare type Message = {
-    id: number;
     type: MessageType;
     timeStamp: string;
     eventType?: string;
