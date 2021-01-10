@@ -11,7 +11,6 @@ export enum MessageType
 
 export type Message =
 {
-  id:number,
   type: MessageType,
   timeStamp: string,
   eventType?: string,

@@ -72,7 +72,7 @@ export default class BasicWrapper
         return result;
     }
 
-    async  unsubscribe(event:string, callback:(result:any)=>void) : Promise<any>
+    async unsubscribe(event:string, callback:(result:any)=>void) : Promise<any>
     {
         console.log("Unsubscribing from " + event);
 
