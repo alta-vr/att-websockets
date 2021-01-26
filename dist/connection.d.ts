@@ -6,6 +6,7 @@ export declare enum MessageType {
     CommandResult = "CommandResult"
 }
 export declare type Message = {
+    id: number;
     type: MessageType;
     timeStamp: string;
     eventType?: string;
@@ -24,11 +25,11 @@ export default class Connection {
         (message?: any, ...optionalParams: any[]): void;
         (message?: any, ...optionalParams: any[]): void;
     };
-    nextId: number;
+    nextSendId: number;
+    nextReceiveId: number;
     constructor(name: string);
     connect(ipAddress: string, port: string | number, token: string): Promise<void>;
     handleMessage(message: any): void;
-    getNextId(): number;
     send(content: string): number;
     terminate(): void;
 }

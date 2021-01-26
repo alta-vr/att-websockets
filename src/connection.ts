@@ -11,6 +11,7 @@ export enum MessageType
 
 export type Message =
 {
+  id: number,
   type: MessageType,
   timeStamp: string,
   eventType?: string,
@@ -30,7 +31,8 @@ export default class Connection
 
   onClose = console.error;
 
-  nextId = 0;
+  nextSendId = 0;
+  nextReceiveId = 0;
 
   constructor(name:string)
   {
@@ -81,13 +83,9 @@ export default class Connection
   {
     var data:Message = JSON.parse(message.data);
 
-    this.onMessage(data);
-  }
+    data.id = this.nextReceiveId++;
 
-  getNextId() : number
-  {
-    this.nextId++;
-    return this.nextId;
+    this.onMessage(data);
   }
 
   send(content:string) : number
@@ -98,7 +96,7 @@ export default class Connection
       return -1;
     }
 
-    var id = this.getNextId();
+    var id = this.nextSendId++;
 
     this.connection.send(JSON.stringify({id, content}));
 

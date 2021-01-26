@@ -24,7 +24,8 @@ class Connection {
         this.onMessage = console.log;
         this.onError = console.error;
         this.onClose = console.error;
-        this.nextId = 0;
+        this.nextSendId = 0;
+        this.nextReceiveId = 0;
         this.name = name;
     }
     connect(ipAddress, port, token) {
@@ -58,18 +59,15 @@ class Connection {
     }
     handleMessage(message) {
         var data = JSON.parse(message.data);
+        data.id = this.nextReceiveId++;
         this.onMessage(data);
-    }
-    getNextId() {
-        this.nextId++;
-        return this.nextId;
     }
     send(content) {
         if (!this.connection) {
             console.error("Connection not started. Call 'connect' first!");
             return -1;
         }
-        var id = this.getNextId();
+        var id = this.nextSendId++;
         this.connection.send(JSON.stringify({ id, content }));
         return id;
     }
