@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/alta-vr/att-websockets#readme",
   "dependencies": {
-    "alta-jsapi": "git+https://github.com/alta-vr/alta-jsapi.git",
+    "alta-jsapi": "git+https://git@github.com/alta-vr/alta-jsapi.git",
     "isomorphic-ws": "^4.0.1",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1",
