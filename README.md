@@ -4,7 +4,7 @@ Websocket connections for ATT
 
 
 # Create a connection
-`let serverId = 123;
+```let serverId = 123;
 let connectionName = "Test";
 
 let connection = new Connection(serverId, connectionName);
@@ -21,13 +21,15 @@ catch (e)
 {
     console.error("Error connecting to server");
     console.error(e);
-}`
+}
+```
 
 # Use the basic wrapper
 This is recommended for 90% of cases, as it handles subscriptions and command responses
 
-`let wrapper = new BasicWrapper(connection);
+```let wrapper = new BasicWrapper(connection);
 
 var result = await wrapper.send("spawn joel dynamite");
 
-wrapper.subscribe("PlayerJoined", console.log);`
+wrapper.subscribe("PlayerJoined", console.log);
+```
