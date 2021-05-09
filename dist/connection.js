@@ -115,7 +115,7 @@ class Connection {
     handleMessage(message) {
         var data = JSON.parse(message.data);
         data.id = this.nextReceiveId++;
-        if (data.type == MessageType.CommandResult && !!data.data.Result.downloadUrl) {
+        if (data.type == MessageType.CommandResult && !!data.data.Result && !!data.data.Result.downloadUrl) {
             let file = data.data.Result.downloadUrl;
             data.data.download = () => this.download(file);
         }
