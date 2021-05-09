@@ -138,7 +138,7 @@ export default class Connection
         const connection = new WebSocket(`ws://${ipAddress}:${websocketPort}`);
         this.connection = connection;
 
-        await new Promise((resolve, reject) => 
+        await new Promise<void>((resolve, reject) => 
         {
             connection.onopen = () => 
             {
