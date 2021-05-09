@@ -109,7 +109,7 @@ class Connection {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.access.check();
             var { ipAddress, webserverPort, token, decoded } = this.access;
-            return yield fetch(`${ipAddress}:${webserverPort}/output/${decoded.UserId}/${downloadUrl}`, { headers: { "Authorization": `Bearer ${token}` } });
+            return yield fetch(`http://${ipAddress}:${webserverPort}/output/${decoded.UserId}/${downloadUrl}`, { headers: { "Authorization": `Bearer ${token}` } });
         });
     }
     handleMessage(message) {

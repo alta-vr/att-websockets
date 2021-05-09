@@ -176,7 +176,7 @@ export default class Connection
 
         var { ipAddress, webserverPort, token, decoded } = this.access;
 
-        return await fetch(`${ipAddress}:${webserverPort}/output/${decoded.UserId}/${downloadUrl}`, { headers: { "Authorization": `Bearer ${token}` } });
+        return await fetch(`http://${ipAddress}:${webserverPort}/output/${decoded.UserId}/${downloadUrl}`, { headers: { "Authorization": `Bearer ${token}` } });
     }
 
     handleMessage(message: any)
