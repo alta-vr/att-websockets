@@ -22,6 +22,9 @@ export interface AccessProvider {
     websocketPort: number;
     check(): Promise<void>;
 }
+interface ServersModule {
+    joinConsole(id: number, start: boolean): Promise<any>;
+}
 export declare class JsapiAccessProvider implements AccessProvider {
     serverId: number;
     token: string;
@@ -29,7 +32,8 @@ export declare class JsapiAccessProvider implements AccessProvider {
     ipAddress: string;
     webserverPort: number;
     websocketPort: number;
-    constructor(serverId: number);
+    serversModule: ServersModule;
+    constructor(serverId: number, serversModule: ServersModule);
     check(): Promise<void>;
 }
 export default class Connection {
@@ -48,10 +52,11 @@ export default class Connection {
     };
     nextSendId: number;
     nextReceiveId: number;
-    constructor(id: AccessProvider | number, name: string);
+    constructor(access: AccessProvider, name: string);
     open(): Promise<void>;
     download(downloadUrl: string): Promise<import("node-fetch").Response>;
     handleMessage(message: any): void;
     send(content: string): number;
     terminate(): void;
 }
+export {};

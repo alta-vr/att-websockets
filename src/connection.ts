@@ -1,4 +1,4 @@
-import { Sessions, Servers } from 'alta-jsapi';
+import { Servers } from 'alta-jsapi';
 
 import WebSocket from 'isomorphic-ws';
 
@@ -56,6 +56,11 @@ export interface AccessProvider
     check() : Promise<void>;
 }
 
+interface ServersModule
+{
+    joinConsole(id:number, start:boolean):Promise<any>;
+}
+
 export class JsapiAccessProvider implements AccessProvider
 {
     serverId: number;
@@ -66,9 +71,12 @@ export class JsapiAccessProvider implements AccessProvider
     webserverPort: number = 1760;
     websocketPort: number = 1761;
 
-    constructor(serverId:number)
+    serversModule:ServersModule;
+
+    constructor(serverId:number, serversModule:ServersModule)
     {
         this.serverId = serverId;
+        this.serversModule = serversModule;
     }
     
     async check()
@@ -111,18 +119,10 @@ export default class Connection
     nextSendId = 0;
     nextReceiveId = 0;
 
-    constructor(id: AccessProvider|number, name: string)
+    constructor(access: AccessProvider, name: string)
     {
-        if (id instanceof Object)
-        {
-            this.serverId = id.serverId;
-            this.access = id;
-        }
-        else
-        {
-            this.serverId = id;
-            this.access = new JsapiAccessProvider(id);
-        }
+        this.serverId = access.serverId;
+        this.access = access;
 
         this.name = name;
     }

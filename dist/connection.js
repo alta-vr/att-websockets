@@ -36,13 +36,14 @@ class ConnectionError extends Error {
     }
 }
 class JsapiAccessProvider {
-    constructor(serverId) {
+    constructor(serverId, serversModule) {
         this.token = '';
         this.decoded = null;
         this.ipAddress = '127.0.0.1';
         this.webserverPort = 1760;
         this.websocketPort = 1761;
         this.serverId = serverId;
+        this.serversModule = serversModule;
     }
     check() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -64,20 +65,14 @@ class JsapiAccessProvider {
 }
 exports.JsapiAccessProvider = JsapiAccessProvider;
 class Connection {
-    constructor(id, name) {
+    constructor(access, name) {
         this.onMessage = console.log;
         this.onError = console.error;
         this.onClose = console.error;
         this.nextSendId = 0;
         this.nextReceiveId = 0;
-        if (id instanceof Object) {
-            this.serverId = id.serverId;
-            this.access = id;
-        }
-        else {
-            this.serverId = id;
-            this.access = new JsapiAccessProvider(id);
-        }
+        this.serverId = access.serverId;
+        this.access = access;
         this.name = name;
     }
     open() {

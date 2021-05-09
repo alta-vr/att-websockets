@@ -8,7 +8,9 @@ Websocket connections for ATT
 let serverId = 123;
 let connectionName = "Test";
 
-let connection = new Connection(serverId, connectionName);
+//import { Servers } from 'alta-jsapi'
+let access = new JsapiAccessProvider(serverId, Servers);
+let connection = new Connection(access, connectionName);
 
 connection.onMessage = console.log;
 
