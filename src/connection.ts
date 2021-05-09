@@ -1,5 +1,3 @@
-import { Servers } from 'alta-jsapi';
-
 import WebSocket from 'isomorphic-ws';
 
 import jwt from 'jsonwebtoken';
@@ -83,7 +81,7 @@ export class JsapiAccessProvider implements AccessProvider
     {
         if (!this.decoded || this.decoded.exp - new Date().getTime() / 1000 < 15)
         {
-            var details = await Servers.joinConsole(this.serverId, false);
+            var details = await this.serversModule.joinConsole(this.serverId, false);
 
             if (details.allowed)
             {
